@@ -1,1 +1,5 @@
 /.idea/
+.idea/workspace.xml
+*.xml
+.DS_Store
+.idea/workspace.xml
