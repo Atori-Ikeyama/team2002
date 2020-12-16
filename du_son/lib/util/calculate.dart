@@ -1,3 +1,7 @@
-abstract class Calculate {
+abstract class ICalculate {
   List<double> solarAzimuth(double angle);
+}
+
+class Calculate implements ICalculate {
+  Calculate();
 }

@@ -1,8 +1,5 @@
 class MapDecorateModel{
   double angle;
-  int _beginColor;
-  int _endColor;
+  List<double> beginEnd = [0, 0, 1, 1];
 
-  int get beginColor => _beginColor;
-  int get endColor => _endColor;
 }
