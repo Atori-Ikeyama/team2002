@@ -26,26 +26,14 @@ class _GoogleMapsState extends State<GoogleMaps> {
     _locationService.onLocationChanged.listen((LocationData result) async {
       setState(() {
         currentLocation = result;
-        print(angle);
-        mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-          target: LatLng(
-              currentLocation.latitude, currentLocation.longitude),
-          bearing: angle,
-          zoom: 20.0,
-        )));
+        cameraPosition();
       });
     });
 
     FlutterCompass.events.listen((value) async {
       setState(() {
         angle = value.heading;
-        print(angle);
-        mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-          target: LatLng(
-              currentLocation.latitude, currentLocation.longitude),
-          bearing: angle,
-          zoom: 20.0,
-        )));
+        cameraPosition();
       });
     });
   }
@@ -99,5 +87,14 @@ class _GoogleMapsState extends State<GoogleMaps> {
     setState(() {
       currentLocation = myLocation;
     });
+  }
+
+  void cameraPosition(){
+    mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(
+          currentLocation.latitude, currentLocation.longitude),
+      bearing: angle,
+      zoom: 20.0,
+    )));
   }
 }

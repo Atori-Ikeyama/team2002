@@ -2,11 +2,11 @@ import 'dart:math' as math show sin, pi, sqrt;
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 
-class SoundView extends StatelessWidget {
+class SoundView extends StatefulWidget {
   @override
   const SoundView({
     Key key,
-    this.size = 100.0;
+    this.size = 100.0,
     this.color = Colors.lightBlueAccent,
     this.onPressed,
     @required this.child,
@@ -18,48 +18,16 @@ class SoundView extends StatelessWidget {
   final VoidCallback onPressed;
 
   @override
-  _SoundState createState() => _SoundState();
+  _SoundView createState() => _SoundView();
 }
 
-class _CirclePainter extends CustomPainter {
-  _CirclePainter(
-      this._animation, {
-        @required this.color,
-  }) : super(repaint: _animation);
+class _SoundView extends State<SoundView> with TickerProviderStateMixin {
+  AnimationController _controller;
 
-  final Color color;
-  final Animation<double> _animation;
-
-  void circle(Canvas canvas, Rect rect, double value){
-    final double opacity = (1.0 - (value / 4.0)).clamp(0.0, 1.0);
-    final Color _color - color.withOpacity(opacity);
-
-    final double size = rect.width/2;
-    final double area = size * size;
-    final double radius = math.sqrt(area * value / 4);
-
-    final Paint paint = Paint()..color = _color;
-    canvas.drawCircle(rect.center, radius, paint);
-  }
-
-  @override
-  void paint(Canvas canvas, Size size){
-    final Rect rect = Rect.fromLTRB(0.0, 0.0, size.width, size.height);
-
-    for(int wave = 3; wave >= 0; wave--){
-      circle(canvas, rect, wave + _animation.value);
-    }
-  }
-
-  @override
-  bool shouldRepaint(_CirclePainter oldDelegate) => true;
-}
-
-class _SoundState extends State<SoundView> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
+  _controller = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
     )..repeat();
@@ -67,7 +35,7 @@ class _SoundState extends State<SoundView> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    _controller.dispose();
+    this._controller.dispose();
     super.dispose();
   }
 
@@ -113,6 +81,41 @@ class _SoundState extends State<SoundView> with TickerProviderStateMixin {
     );
   }
 }
+
+class _CirclePainter extends CustomPainter {
+  _CirclePainter(
+      this._animation, {
+        @required this.color,
+  }) : super(repaint: _animation);
+
+  final Color color;
+  final Animation<double> _animation;
+
+  void circle(Canvas canvas, Rect rect, double value){
+    final double opacity = (1.0 - (value / 4.0)).clamp(0.0, 1.0);
+    final Color _color = color.withOpacity(opacity);
+
+    final double size = rect.width/2;
+    final double area = size * size;
+    final double radius = math.sqrt(area * value / 4);
+
+    final Paint paint = Paint()..color = _color;
+    canvas.drawCircle(rect.center, radius, paint);
+  }
+
+  @override
+  void paint(Canvas canvas, Size size){
+    final Rect rect = Rect.fromLTRB(0.0, 0.0, size.width, size.height);
+
+    for(int wave = 3; wave >= 0; wave--){
+      circle(canvas, rect, wave + _animation.value);
+    }
+  }
+
+  @override
+  bool shouldRepaint(_CirclePainter oldDelegate) => true;
+}
+
 
 class _PulsateCurve extends Curve {
   const _PulsateCurve();
