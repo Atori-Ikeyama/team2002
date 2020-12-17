@@ -15,58 +15,76 @@ class Calculate implements ICalculate {
   //   _calculate(size);
   // }
 
-  List<double> solarAzimuth(double angle, Size size) {
-    double width = size.width;
-    double height = size.height;
+  List<double> solarAzimuth(double angle,Size size) {
     double tangent = math.tan(angle*(math.pi/180));
     List<double> _answer = [0, 0, 0, 0];
 
     //[x,y]
     //連立方程式１を配列で表現
-    List<List<double>> y1 = [
+    List<List<double>> A = [
       [tangent, -1],
       [0, 1]
     ];
-    List y2 = [0, width / 2];
-    List y3 = [0, -width / 2];
+    List right = [0, width / 2];
+    List left = [0, -width / 2];
     //連立方程式２を配列で表現
-    List<List<double>> y4 = [
-      [tangent, -1],
-      [0, 1]
-    ];
-    List y5 = [0, height / 2];
-    List y6 = [0, -height / 2];
 
-    List ans = [0, 0];
-    List ans2 = [0, 0];
-    List ans3 = [0, 0];
-    List ans4 = [0, 0];
+    List top = [0, height / 2];
+    List bottom = [0, -height / 2];
+
+    List ans_right = [0, 0];
+    List ans_left = [0, 0];
+    List ans_top = [0, 0];
+    List ans_bottom = [0, 0];
     //ヤコビで連立方程式の計算
-    jacobi(y1, y2, ans);
-    jacobi(y4, y5, ans2);
-    jacobi(y1, y3, ans3);
-    jacobi(y1, y6, ans4);
+    jacobi(A, right, ans_right);
+    jacobi(A, left, ans_left);
+    jacobi(A, top, ans_top);
+    jacobi(A, bottom, ans_bottom);
 
     //絶対値を入れる
-    double abs = (ans[0] + ans[1]).abs();
-    double abs2 = (ans2[0] + ans2[1]).abs();
-    double abs3 = (ans3[0] + ans3[1]).abs();
-    double abs4 = (ans4[0] + ans4[1]).abs();
+    double abs_right = math.sqrt(math.pow(ans_right[0], 2)
+        + math.pow(ans_right[1], 2));
+    double abs_left = math.sqrt(math.pow(ans_left[0], 2)
+        + math.pow(ans_left[1], 2));
+    double abs_top = math.sqrt(math.pow(ans_top[0], 2)
+        + math.pow(ans_top[1], 2));
+    double abs_bottom = math.sqrt(math.pow(ans_bottom[0], 2)
+        + math.pow(ans_bottom[1], 2));
 
-    if (abs > abs2) {
-      _answer[0] = ans2[0] / width;
-      _answer[1] = ans2[1] / height;
-    } else {
-      _answer[0] = ans2[0] / width;
-      _answer[1] = ans2[1] / height;
-    }
+    if (math.tan(angle) >= 0){
+      if (abs_right > abs_top) {
+        _answer[0] = ans_top[0] / width;
+        _answer[1] = ans_top[1] / height;
+      } else {
+        _answer[0] = ans_right[0] / width;
+        _answer[1] = ans_right[1] / height;
+      }
 
-    if (abs3 > abs4) {
-      _answer[0] = ans4[0] / width;
-      _answer[1] = ans4[1] / height;
-    } else {
-      _answer[0] = ans3[0] / width;
-      _answer[1] = ans3[1] / height;
+      if (abs_left > abs_bottom) {
+        _answer[2] = ans_bottom[0] / width;
+        _answer[3] = ans_bottom[1] / height;
+      } else {
+        _answer[2] = ans_left[0] / width;
+        _answer[3] = ans_left[1] / height;
+      }
+    }else {
+      if (abs_left > abs_top) {
+        _answer[0] = ans_top[0] / width;
+        _answer[1] = ans_top[1] / height;
+      } else {
+        _answer[0] = ans_left[0] / width;
+        _answer[1] = ans_left[1] / height;
+      }
+
+      if (abs_right > abs_bottom) {
+        _answer[2] = ans_bottom[0] / width;
+        _answer[3] = ans_bottom[1] / height;
+      } else {
+        _answer[2] = ans_right[0] / width;
+        _answer[3] = ans_right[1] / height;
+      }
+
     }
     return _answer;
   }
