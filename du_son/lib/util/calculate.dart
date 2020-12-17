@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
@@ -18,7 +18,7 @@ class Calculate implements ICalculate {
   List<double> solarAzimuth(double angle, Size size) {
     double width = size.width;
     double height = size.height;
-    double tangent = tan(angle);
+    double tangent = math.tan(angle*(math.pi/180));
     List<double> _answer = [0, 0, 0, 0];
 
     //[x,y]
