@@ -52,6 +52,16 @@ class Calculate implements ICalculate {
     double abs_bottom = math.sqrt(math.pow(ans_bottom[0], 2)
         + math.pow(ans_bottom[1], 2));
 
+    if(angle == 90){
+      _answer = [0, 0.5, 0, -0.5];
+      return _answer;
+    }
+    if(angle == 270){
+      _answer = [0, -0.5, 0, 0.5];
+      return _answer;
+    }
+
+
     if (math.tan(angle) >= 0){
       if (abs_right > abs_top) {
         _answer[0] = ans_top[0] / width;
@@ -84,7 +94,6 @@ class Calculate implements ICalculate {
         _answer[2] = ans_right[0] / width;
         _answer[3] = ans_right[1] / height;
       }
-
     }
     return _answer;
   }
