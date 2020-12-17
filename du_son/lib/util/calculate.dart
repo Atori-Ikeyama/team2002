@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:du_son/models/sound_model.dart';
 import 'package:flutter/material.dart';
 
 abstract class ICalculate {
@@ -117,5 +118,13 @@ class Calculate implements ICalculate {
       }
       if (finish) return;
     }
+  }
+
+  List<SoundModel> soundPosition(
+      double angle,
+      double current_posi_x,
+      double current_posi_y,
+      List<Map<String, dynamic>> sounds_position,) {
+
   }
 }
