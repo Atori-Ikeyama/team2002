@@ -1,11 +1,8 @@
-class SoundModel{
-  double _positionX;
-  double _positionY;
-  int _color;
-  String _filePath;
+import 'dart:ui';
 
-  double get positionX => _positionX;
-  double get positionY => _positionY;
-  int get color => _color;
-  String get filePath => _filePath;
+class SoundModel{
+  double position_lat;
+  double position_lng;
+  Color color;
+  String fileName;
 }

@@ -16,7 +16,7 @@ class SoundManager with ChangeNotifier {
     {
       'location': {
         'latitude':,
-        
+
       }
     }
   ];

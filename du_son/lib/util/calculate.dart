@@ -10,6 +10,10 @@ abstract class ICalculate {
 }
 
 class Calculate implements ICalculate {
+  double width;
+  double height;
+
+  Calculate(this.width, this.height);
 
   List<double> solarAzimuth(double angle, double width, double height) {
     double tangent = math.tan(angle*(math.pi/180));
@@ -121,25 +125,24 @@ class Calculate implements ICalculate {
       double current_posi_lng,
       List<Map<String, dynamic>> sounds,) {
     List<SoundModel> screenIn;
+    SoundModel _sound;
 
     for(Map<String, dynamic> sound in sounds){
-      if(distance_direction(current_posi_lat, current_posi_lng, sound['latitude'], sound['longitude'])[0] < 500*0.21904762){
-
+      if(distance_direction(current_posi_lat, current_posi_lng, sound['latitude'], sound['longitude'])[0] < this.height*0.21904762 + 150){
+        _sound.position_lat = sound['latitude'];
+        _sound.position_lng = sound['longitude'];
+        _sound.fileName = sound['fileName'];
+        _sound.color = sound['color'];
+        screenIn.add(_sound);
       }
     }
+
+    return screenIn;
   }
 
   List<double> distance_direction(double clat, double clng, double slat, double slng){
     List<double> answer = [0,0];
     double r = 6378.137; // 赤道半径[km]
-
-    // 大垣駅(lat = 緯度, lng = 経度)
-    double lat1 = 35.366944 * math.pi / 180;
-    double lng1 = 136.617833 * math.pi / 180;
-
-    // ソフトピアジャパン センタービル
-    double lat2 = 35.367572 * math.pi / 180;
-    double lng2 = 136.639661 * math.pi / 180;
 
     // 2点間の距離[km]
     answer[0] = r * math.acos(math.sin(clng) * math.sin(slng) + math.cos(clat) * math.cos(slat) * math.cos(slng - clng));
