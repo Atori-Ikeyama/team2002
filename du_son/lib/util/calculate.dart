@@ -2,7 +2,6 @@ import 'dart:core';
 import 'dart:math' as math;
 
 import 'package:du_son/models/sound_model.dart';
-import 'package:du_son/util/device_info.dart';
 import 'package:flutter/material.dart';
 
 abstract class ICalculate {
@@ -148,12 +147,8 @@ class Calculate implements ICalculate {
     // 2点間の距離[km]
     answer[0] = r * math.acos(math.sin(clng) * math.sin(slng) + math.cos(clat) * math.cos(slat) * math.cos(slng - clng));
 
-<<<<<<< HEAD
-
-=======
     // ２点間の角度
     answer[1] = math.atan2(slat - clat, slng - clng);
     return answer;
->>>>>>> 44e69abf0e811fb2c113b1623eeb4eb8de48d54d
   }
 }
