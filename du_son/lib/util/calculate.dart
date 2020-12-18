@@ -1,6 +1,8 @@
+import 'dart:core';
 import 'dart:math' as math;
 
 import 'package:du_son/models/sound_model.dart';
+import 'package:du_son/util/device_info.dart';
 import 'package:flutter/material.dart';
 
 abstract class ICalculate {
@@ -8,13 +10,10 @@ abstract class ICalculate {
 }
 
 class Calculate implements ICalculate {
-  // Widget build(BuildContext context) {
-  //   final Size size = MediaQuery.of(context).size;
-  //
-  //   double angle = atan(200);
-  //
-  //   _calculate(size);
-  // }
+  double width;
+  double height;
+
+  Calculate(this.width, this.height);
 
   List<double> solarAzimuth(double angle, double width, double height) {
     double tangent = math.tan(angle*(math.pi/180));
@@ -122,10 +121,38 @@ class Calculate implements ICalculate {
 
   List<SoundModel> soundPosition(
       double angle,
-      double current_posi_x,
-      double current_posi_y,
-      List<Map<String, dynamic>> sounds_position,) {
+      double current_posi_lat,
+      double current_posi_lng,
+      List<Map<String, dynamic>> sounds,) {
+    List<SoundModel> screenIn;
+    SoundModel _sound;
 
+    for(Map<String, dynamic> sound in sounds){
+      if(distance_direction(current_posi_lat, current_posi_lng, sound['latitude'], sound['longitude'])[0] < this.height*0.21904762 + 150){
+        _sound.position_lat = sound['latitude'];
+        _sound.position_lng = sound['longitude'];
+        _sound.fileName = sound['fileName'];
+        _sound.color = sound['color'];
+        screenIn.add(_sound);
+      }
+    }
 
+    return screenIn;
+  }
+
+  List<double> distance_direction(double clat, double clng, double slat, double slng){
+    List<double> answer = [0,0];
+    double r = 6378.137; // 赤道半径[km]
+
+    // 2点間の距離[km]
+    answer[0] = r * math.acos(math.sin(clng) * math.sin(slng) + math.cos(clat) * math.cos(slat) * math.cos(slng - clng));
+
+<<<<<<< HEAD
+
+=======
+    // ２点間の角度
+    answer[1] = math.atan2(slat - clat, slng - clng);
+    return answer;
+>>>>>>> 44e69abf0e811fb2c113b1623eeb4eb8de48d54d
   }
 }

@@ -8,6 +8,7 @@ class SoundManager with ChangeNotifier {
   DeviceInfo _deviceInfo = DeviceInfo();
   Calculate _calculate = Calculate();
   List<Map<String, dynamic>> _sounds = [
+<<<<<<< HEAD
     {'ABURI': {
       'latitude': 41.82684221155052,
       'longitude': 140.75185841416268,
@@ -70,6 +71,18 @@ class SoundManager with ChangeNotifier {
     'path': 'coffee.mp3'}
     },
 
+=======
+    {'location': {
+      'latitude': 123.456,
+      'longitude': 123.456,
+      'fileName': 'cafe.mp3'}
+    },
+    {
+      'location': {
+        'latitude':,
+
+      }
+>>>>>>> 44e69abf0e811fb2c113b1623eeb4eb8de48d54d
     }
   ];
 
