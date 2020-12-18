@@ -1,6 +1,8 @@
+import 'dart:core';
 import 'dart:math' as math;
 
 import 'package:du_son/models/sound_model.dart';
+import 'package:du_son/util/device_info.dart';
 import 'package:flutter/material.dart';
 
 abstract class ICalculate {
@@ -8,13 +10,6 @@ abstract class ICalculate {
 }
 
 class Calculate implements ICalculate {
-  // Widget build(BuildContext context) {
-  //   final Size size = MediaQuery.of(context).size;
-  //
-  //   double angle = atan(200);
-  //
-  //   _calculate(size);
-  // }
 
   List<double> solarAzimuth(double angle, double width, double height) {
     double tangent = math.tan(angle*(math.pi/180));
@@ -122,9 +117,35 @@ class Calculate implements ICalculate {
 
   List<SoundModel> soundPosition(
       double angle,
-      double current_posi_x,
-      double current_posi_y,
-      List<Map<String, dynamic>> sounds_position,) {
+      double current_posi_lat,
+      double current_posi_lng,
+      List<Map<String, dynamic>> sounds,) {
+    List<SoundModel> screenIn;
 
+    for(Map<String, dynamic> sound in sounds){
+      if(distance_direction(current_posi_lat, current_posi_lng, sound['latitude'], sound['longitude'])[0] < 500*0.21904762){
+        
+      }
+    }
+  }
+
+  List<double> distance_direction(double clat, double clng, double slat, double slng){
+    List<double> answer = [0,0];
+    double r = 6378.137; // 赤道半径[km]
+
+    // 大垣駅(lat = 緯度, lng = 経度)
+    double lat1 = 35.366944 * math.pi / 180;
+    double lng1 = 136.617833 * math.pi / 180;
+
+    // ソフトピアジャパン センタービル
+    double lat2 = 35.367572 * math.pi / 180;
+    double lng2 = 136.639661 * math.pi / 180;
+
+    // 2点間の距離[km]
+    answer[0] = r * math.acos(math.sin(clng) * math.sin(slng) + math.cos(clat) * math.cos(slat) * math.cos(slng - clng));
+
+    // ２点間の角度
+    answer[1] = math.atan2(slat - clat, slng - clng);
+    return answer;
   }
 }
