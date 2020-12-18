@@ -8,10 +8,16 @@ class SoundManager with ChangeNotifier {
   DeviceInfo _deviceInfo = DeviceInfo();
   Calculate _calculate = Calculate();
   List<Map<String, dynamic>> _sounds = [
-    {'kigaku': {
+    {'location': {
       'latitude': 123.456,
       'longitude': 123.456,
-      'path': 'asafdasfasfsa'}
+      'fileName': 'cafe.mp3'}
+    },
+    {
+      'location': {
+        'latitude':,
+        
+      }
     }
   ];
 

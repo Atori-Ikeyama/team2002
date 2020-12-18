@@ -124,7 +124,7 @@ class Calculate implements ICalculate {
 
     for(Map<String, dynamic> sound in sounds){
       if(distance_direction(current_posi_lat, current_posi_lng, sound['latitude'], sound['longitude'])[0] < 500*0.21904762){
-        
+
       }
     }
   }
