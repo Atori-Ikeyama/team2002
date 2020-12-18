@@ -12,7 +12,7 @@ class MainPage extends StatelessWidget {
         children: [
           GoogleMaps(),
           MapDecorate(),
-          SoundView(),
+          SoundsScreen(),
         ],
       ),
     );

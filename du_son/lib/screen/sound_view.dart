@@ -14,38 +14,41 @@ class _SoundsScreenState extends State<SoundsScreen> {
   double positionY = 0;
 
   @override
-  Widget build(BuildContext context){
-      return Consumer<SoundManager>(
+  Widget build(BuildContext context) {
+    return Consumer<SoundManager>(
         builder: (context, manager, _child) => Container(
-              child: Positioned(
-
-              ),
-            ),
-      );
+              color: Colors.transparent,
+              child: Stack(children: [
+                Positioned(
+                  top: manager.sounds[0].positionX,
+                  left: manager.sounds[0].positionY,
+                  child: Container(
+                    color: Colors.transparent,
+                    width: 200,
+                    height: 200,
+                    child: RipplesAnimation(),
+                  ),
+                ),
+              ]),
+            ));
   }
 }
 
-
-class SoundView extends StatefulWidget {
-  @override
-  const SoundView({
+class RipplesAnimation extends StatefulWidget {
+  const RipplesAnimation({
     Key key,
-    this.size = 100.0,
-    this.color = Colors.lightBlueAccent,
-    this.onPressed,
-    @required this.child,
+    this.size = 200.0,
+    this.color = Colors.purpleAccent,
   }) : super(key: key);
-
   final double size;
   final Color color;
-  final Widget child;
-  final VoidCallback onPressed;
 
   @override
-  _SoundView createState() => _SoundView();
+  _RipplesAnimationState createState() => _RipplesAnimationState();
 }
 
-class _SoundView extends State<SoundView> with TickerProviderStateMixin {
+class _RipplesAnimationState extends State<RipplesAnimation>
+    with TickerProviderStateMixin {
   AnimationController _controller;
 
   @override
@@ -54,13 +57,12 @@ class _SoundView extends State<SoundView> with TickerProviderStateMixin {
     _controller = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
-    )
-      ..repeat();
+    )..repeat();
   }
 
   @override
   void dispose() {
-    this._controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -81,10 +83,9 @@ class _SoundView extends State<SoundView> with TickerProviderStateMixin {
             scale: Tween(begin: 0.95, end: 1.0).animate(
               CurvedAnimation(
                 parent: _controller,
-                curve: const _PulsateCurve(),
+                curve: const CurveWave(),
               ),
             ),
-            child: widget.child,
           ),
         ),
       ),
@@ -93,57 +94,55 @@ class _SoundView extends State<SoundView> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _CirclePainter(
-        _controller,
-        color: widget.color,
-      ),
-      child: SizedBox(
-        width: widget.size * 4.125,
-        height: widget.size * 4.125,
-        child: _button(),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Center(
+        child: CustomPaint(
+          painter: CirclePainter(
+            _controller,
+            color: widget.color,
+          ),
+          child: SizedBox(
+            width: widget.size,
+            height: widget.size,
+            child: _button(),
+          ),
+        ),
       ),
     );
   }
 }
 
-class _CirclePainter extends CustomPainter {
-  _CirclePainter(this._animation, {
-    @required this.color,
-  }) : super(repaint: _animation);
-
+class CirclePainter extends CustomPainter {
+  CirclePainter(this._animation, {@required this.color})
+      : super(repaint: _animation);
   final Color color;
   final Animation<double> _animation;
 
   void circle(Canvas canvas, Rect rect, double value) {
     final double opacity = (1.0 - (value / 4.0)).clamp(0.0, 1.0);
     final Color _color = color.withOpacity(opacity);
-
     final double size = rect.width / 2;
     final double area = size * size;
     final double radius = math.sqrt(area * value / 4);
-
-    final Paint paint = Paint()
-      ..color = _color;
+    final Paint paint = Paint()..color = _color;
     canvas.drawCircle(rect.center, radius, paint);
   }
 
   @override
   void paint(Canvas canvas, Size size) {
     final Rect rect = Rect.fromLTRB(0.0, 0.0, size.width, size.height);
-
     for (int wave = 3; wave >= 0; wave--) {
       circle(canvas, rect, wave + _animation.value);
     }
   }
 
   @override
-  bool shouldRepaint(_CirclePainter oldDelegate) => true;
+  bool shouldRepaint(CirclePainter oldDelegate) => true;
 }
 
-
-class _PulsateCurve extends Curve {
-  const _PulsateCurve();
+class CurveWave extends Curve {
+  const CurveWave();
 
   @override
   double transform(double t) {
@@ -153,11 +152,3 @@ class _PulsateCurve extends Curve {
     return math.sin(t * math.pi);
   }
 }
-
-
-
-
-
-
-
-
