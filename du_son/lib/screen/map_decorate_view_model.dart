@@ -9,7 +9,6 @@ class MapDecorateManager with ChangeNotifier {
   MapDecorateModel model = MapDecorateModel();
   Calculate calculate = Calculate();
   DeviceInfo _deviceInfo = DeviceInfo();
-  List<SoundModel> sounds = []
 
   MapDecorateManager(){
     FlutterCompass.events.listen((value) async {

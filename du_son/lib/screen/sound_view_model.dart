@@ -7,5 +7,15 @@ class SoundManager with ChangeNotifier {
   SoundModel model = SoundModel();
   DeviceInfo _deviceInfo = DeviceInfo();
   Calculate _calculate = Calculate();
-  final String documentId =
+  List<Map<String, dynamic>> _sounds = [
+    {'kigaku': {
+      'latitude': 123.456,
+      'longitude': 123.456,
+      'path': 'asafdasfasfsa'}
+    }
+  ];
+
+  List<SoundModel> sound_positions;
+
+
 }

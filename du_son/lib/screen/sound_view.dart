@@ -2,6 +2,27 @@ import 'dart:math' as math show sin, pi, sqrt;
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 
+class SoundsScreen extends StatefulWidget {
+  @override
+  _SoundsScreenState createState() => _SoundsScreenState();
+}
+
+class _SoundsScreenState extends State<SoundsScreen> {
+  double positionX = 0;
+  double positionY = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Positioned(
+        
+      ),
+    );
+  }
+}
+
+
+
 class SoundView extends StatefulWidget {
   @override
   const SoundView({
