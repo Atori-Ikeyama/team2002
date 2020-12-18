@@ -128,11 +128,12 @@ class Calculate implements ICalculate {
     SoundModel _sound;
 
     for(Map<String, dynamic> sound in sounds){
-      if(distance_direction(current_posi_lat, current_posi_lng, sound['latitude'], sound['longitude'])[0] < this.height*0.21904762 + 150){
+      List<double> _dd = distance_direction(current_posi_lat, current_posi_lng, sound['latitude'], sound['longitude']);
+      if(_dd[0] < this.height*0.21904762 + 150){
         _sound.position_lat = sound['latitude'];
         _sound.position_lng = sound['longitude'];
         _sound.fileName = sound['fileName'];
-        _sound.color = sound['color'];
+        _sound.color = Colors.purpleAccent;
         screenIn.add(_sound);
       }
     }
