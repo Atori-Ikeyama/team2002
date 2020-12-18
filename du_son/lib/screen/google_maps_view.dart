@@ -53,6 +53,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
       );
     } else {
       return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
           body: GoogleMap(
             onMapCreated: _onMapCreated,
@@ -62,7 +63,14 @@ class _GoogleMapsState extends State<GoogleMaps> {
               zoom: 20.0,
               bearing: angle,
             ),
-            myLocationEnabled: true,
+            myLocationEnabled: false,
+            rotateGesturesEnabled: false,
+            scrollGesturesEnabled: false,
+            zoomControlsEnabled: false,
+            zoomGesturesEnabled: false,
+            liteModeEnabled: false,
+            tiltGesturesEnabled: false,
+            myLocationButtonEnabled:false,
           ),
         ),
       );
@@ -74,11 +82,12 @@ class _GoogleMapsState extends State<GoogleMaps> {
     try {
       myLocation = await _locationService.getLocation();
       error = "";
-    }on PlatformException catch(e){
-      if(e.code == 'PERMISSION_DENITED')
+    } on PlatformException catch (e) {
+      if (e.code == 'PERMISSION_DENITED')
         error = 'Permission denited';
-      else if(e.code == 'PERMISSION_DENITED_NEVER_ASK')
-        error = 'Permission denited - please ask the user to enable it from the app settings';
+      else if (e.code == 'PERMISSION_DENITED_NEVER_ASK')
+        error =
+        'Permission denited - please ask the user to enable it from the app settings';
       myLocation = null;
     }
     setState(() {
@@ -86,7 +95,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
     });
   }
 
-  void cameraPosition(){
+  void cameraPosition() {
     mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(
           currentLocation.latitude, currentLocation.longitude),

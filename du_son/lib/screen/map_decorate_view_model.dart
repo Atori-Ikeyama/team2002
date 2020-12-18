@@ -6,7 +6,7 @@ import 'package:flutter_compass/flutter_compass.dart';
 import 'package:flutter/material.dart';
 
 class MapDecorateManager with ChangeNotifier {
-  MapDecorateModel model = MapDecorateModel(0, [0, 0.5, 0, -0.5]);
+  MapDecorateModel model = MapDecorateModel(0.0, [0, 0.5, 0, -0.5]);
   Calculate calculate;
   double azimuth;
   List<Color> color = [
