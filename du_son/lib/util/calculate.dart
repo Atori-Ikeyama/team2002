@@ -9,10 +9,9 @@ abstract class ICalculate {
 }
 
 class Calculate implements ICalculate {
-  double width;
-  double height;
+  Size size;
 
-  Calculate(this.width, this.height);
+  Calculate(this.size);
 
   List<double> solarAzimuth(double angle, double width, double height) {
     double tangent = math.tan(angle*(math.pi/180));
@@ -128,9 +127,9 @@ class Calculate implements ICalculate {
 
     for(Map<String, dynamic> sound in sounds){
       List<double> _dd = distance_direction(current_posi_lat, current_posi_lng, sound['latitude'], sound['longitude']);
-      if(_dd[0] < this.height*0.21904762 + 150){
-        _sound.position_lat = sound['latitude'];
-        _sound.position_lng = sound['longitude'];
+      if(_dd[0] < (this.size.height/2)*0.21904762 + 150){
+        _sound.positionX = _dd[0]*math.cos(_dd[1])*4.56521739;
+        _sound.positionY = _dd[0]*math.sin(_dd[1])*4.56521739;
         _sound.fileName = sound['fileName'];
         _sound.color = Colors.purpleAccent;
         screenIn.add(_sound);

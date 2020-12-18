@@ -1,6 +1,8 @@
 import 'dart:math' as math show sin, pi, sqrt;
+import 'package:du_son/screen/sound_view_model.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SoundsScreen extends StatefulWidget {
   @override
@@ -12,15 +14,16 @@ class _SoundsScreenState extends State<SoundsScreen> {
   double positionY = 0;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Positioned(
+  Widget build(BuildContext context){
+      return Consumer<SoundManager>(
+        builder: (context, manager, _child) => Container(
+              child: Positioned(
 
-      ),
-    );
+              ),
+            ),
+      );
   }
 }
-
 
 
 class SoundView extends StatefulWidget {
@@ -31,7 +34,7 @@ class SoundView extends StatefulWidget {
     this.color = Colors.lightBlueAccent,
     this.onPressed,
     @required this.child,
-}) : super(key: key);
+  }) : super(key: key);
 
   final double size;
   final Color color;
@@ -48,10 +51,11 @@ class _SoundView extends State<SoundView> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-  _controller = AnimationController(
+    _controller = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
-    )..repeat();
+    )
+      ..repeat();
   }
 
   @override
@@ -104,31 +108,31 @@ class _SoundView extends State<SoundView> with TickerProviderStateMixin {
 }
 
 class _CirclePainter extends CustomPainter {
-  _CirclePainter(
-      this._animation, {
-        @required this.color,
+  _CirclePainter(this._animation, {
+    @required this.color,
   }) : super(repaint: _animation);
 
   final Color color;
   final Animation<double> _animation;
 
-  void circle(Canvas canvas, Rect rect, double value){
+  void circle(Canvas canvas, Rect rect, double value) {
     final double opacity = (1.0 - (value / 4.0)).clamp(0.0, 1.0);
     final Color _color = color.withOpacity(opacity);
 
-    final double size = rect.width/2;
+    final double size = rect.width / 2;
     final double area = size * size;
     final double radius = math.sqrt(area * value / 4);
 
-    final Paint paint = Paint()..color = _color;
+    final Paint paint = Paint()
+      ..color = _color;
     canvas.drawCircle(rect.center, radius, paint);
   }
 
   @override
-  void paint(Canvas canvas, Size size){
+  void paint(Canvas canvas, Size size) {
     final Rect rect = Rect.fromLTRB(0.0, 0.0, size.width, size.height);
 
-    for(int wave = 3; wave >= 0; wave--){
+    for (int wave = 3; wave >= 0; wave--) {
       circle(canvas, rect, wave + _animation.value);
     }
   }

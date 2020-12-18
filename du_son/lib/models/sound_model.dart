@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 class SoundModel{
-  double position_lat;
-  double position_lng;
+  double positionX;
+  double positionY;
   Color color;
   String fileName;
 }
