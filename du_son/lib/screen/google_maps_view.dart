@@ -25,6 +25,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
     initPlatformState();
     _locationService.onLocationChanged.listen((LocationData result) async {
       setState(() {
+
         currentLocation = result;
         cameraPosition();
       });
@@ -32,6 +33,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
 
     FlutterCompass.events.listen((value) async {
       setState(() {
+        print(currentLocation.longitude);
         angle = value.heading;
         cameraPosition();
       });
@@ -60,7 +62,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
             initialCameraPosition: CameraPosition( // 最初のカメラ位置
               target: LatLng(
                   currentLocation.latitude, currentLocation.longitude),
-              zoom: 20.0,
+              zoom: 19.0,
               bearing: angle,
             ),
             myLocationEnabled: false,
@@ -100,7 +102,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
       target: LatLng(
           currentLocation.latitude, currentLocation.longitude),
       bearing: angle,
-      zoom: 20.0,
+      zoom: 19.0,
     )));
   }
 }

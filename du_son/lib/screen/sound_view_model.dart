@@ -8,7 +8,7 @@ import 'package:location/location.dart';
 class SoundManager with ChangeNotifier {
   double _angle = 0;
   Calculate _calculate;
-  List<SoundModel> sounds = [SoundModel(41.837005393152594, 140.76468075479335, 'coffee.mp3')];
+  List<SoundModel> sounds = [new SoundModel(41.8419230, 140.7703544, 'coffee.mp3'),];
   LocationData currentLocation;
   Location _locationService = Location();
   String error;
@@ -37,7 +37,7 @@ class SoundManager with ChangeNotifier {
     _locationService.onLocationChanged.listen((LocationData result) async {
       currentLocation = result;
       sounds = _calculate.soundPosition(
-          _angle, currentLocation.latitude, currentLocation.longitude, _sounds);
+          _angle, currentLocation.latitude, currentLocation.longitude, this._sounds);
       notifyListeners();
       print('sound_view_model: LocationService');
     });
@@ -45,7 +45,7 @@ class SoundManager with ChangeNotifier {
     FlutterCompass.events.listen((value) async {
       _angle = value.heading;
       sounds = _calculate.soundPosition(
-          _angle, currentLocation.latitude, currentLocation.longitude, _sounds);
+          _angle, currentLocation.latitude, currentLocation.longitude, this._sounds);
       notifyListeners();
       print('sound_view_model: FlutterCompass');
     });
@@ -115,5 +115,12 @@ class SoundManager with ChangeNotifier {
         'path': 'coffee.mp3'
       }
     },
+    {
+      'location': {
+        'latitude': 41.8419230,
+        'longitude': 140.7703544,
+        'path': 'coffee.mp3'
+      }
+    }
   ];
 }
