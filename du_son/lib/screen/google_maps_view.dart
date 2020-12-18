@@ -54,9 +54,6 @@ class _GoogleMapsState extends State<GoogleMaps> {
     } else {
       return MaterialApp(
         home: Scaffold(
-          appBar: AppBar(
-            title: Text("Flutter Maps"),
-          ),
           body: GoogleMap(
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition( // 最初のカメラ位置

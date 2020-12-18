@@ -16,10 +16,13 @@ class MapDecorate extends StatelessWidget {
               manager.model.beginEnd[0],
               manager.model.beginEnd[1],
             ),
-            end: FractionalOffset.bottomRight,
+            end: FractionalOffset(
+                manager.model.beginEnd[2],
+                manager.model.beginEnd[3]
+            ),
             colors: [
-              Color(manager.model.beginColor).withOpacity(0.2),
-              Color(manager.model.endColor).withOpacity(0.2),
+              manager.color[0].withOpacity(0.1),
+              manager.color[1].withOpacity(0.1),
             ],
             stops: const [
               0.0,
