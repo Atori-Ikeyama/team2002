@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 class MapDecorateManager with ChangeNotifier {
   MapDecorateModel model = MapDecorateModel(0.0, [0, 0.5, 0, -0.5]);
   Calculate calculate;
-  double azimuth;
+  double solarAzimuth;
   List<Color> color = [
     Color.fromRGBO(0, 0, 0, 1.0),
     Color.fromRGBO(0, 0, 0, 1.0)
@@ -22,17 +22,17 @@ class MapDecorateManager with ChangeNotifier {
 
   MapDecorateManager(Size size) {
     calculate = Calculate(size);
-    azimuth = (now.hour * 60 + now.minute) / 4;
+    solarAzimuth = (now.hour * 60 + now.minute) / 4;
     getMinute(now.minute, now.hour);
 
     FlutterCompass.events.listen((value) async {
-      model.angle = value.heading + azimuth;
+      model.angle = value.heading + solarAzimuth;
       model.beginEnd = calculate.solarAzimuth(
         model.angle,
         size.width,
         size.height,
       );
-      print(model);
+      log(model.beginEnd.toString());
       notifyListeners();
     });
 
@@ -44,7 +44,7 @@ class MapDecorateManager with ChangeNotifier {
 
   void _setColor(Timer timer) {
     getMinute(now.minute, now.hour);
-    log('map_decorate_view_model: getMinute');
+    log(now.hour.toString());
     notifyListeners();
   }
 
