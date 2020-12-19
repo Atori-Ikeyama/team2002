@@ -26,7 +26,6 @@ class _GoogleMapsState extends State<GoogleMaps> {
     initPlatformState();
     _locationService.onLocationChanged.listen((LocationData result) async {
       setState(() {
-        log(currentLocation.longitude.toString());
         currentLocation = result;
         cameraPosition();
       });
