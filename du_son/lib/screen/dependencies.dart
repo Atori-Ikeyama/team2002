@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 class DependenciesProvider extends StatelessWidget {
   final Widget child;
+
   DependenciesProvider({@required this.child});
 
   @override
@@ -16,7 +17,7 @@ class DependenciesProvider extends StatelessWidget {
           create: (context) => MapDecorateManager(size),
         ),
         ChangeNotifierProvider<SoundManager>(
-            create:(context) => SoundManager(size),
+          create: (context) => SoundManager(size),
         )
       ],
       child: child,

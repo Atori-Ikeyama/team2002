@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:math' as math;
+
 import 'package:du_son/models/sound_model.dart';
 import 'package:du_son/util/calculate.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +11,9 @@ import 'package:location/location.dart';
 class SoundManager with ChangeNotifier {
   double _angle = 0;
   Calculate _calculate;
-  List<SoundModel> sounds = [new SoundModel(41.8419230, 140.7703544, 'coffee.mp3'),];
+  List<SoundModel> sounds = [
+    new SoundModel(41.8419230, 140.7703544, 'coffee.mp3'),
+  ];
   LocationData currentLocation;
   Location _locationService = Location();
   String error;
@@ -36,18 +41,18 @@ class SoundManager with ChangeNotifier {
     initPlatformState();
     _locationService.onLocationChanged.listen((LocationData result) async {
       currentLocation = result;
-      sounds = _calculate.soundPosition(
-          _angle, currentLocation.latitude, currentLocation.longitude, this._sounds);
+      sounds = _calculate.soundPosition(_angle, currentLocation.latitude,
+          currentLocation.longitude, this._sounds);
       notifyListeners();
-      print('sound_view_model: LocationService');
+      log(_angle.toString());
     });
 
     FlutterCompass.events.listen((value) async {
       _angle = value.heading;
-      sounds = _calculate.soundPosition(
-          _angle, currentLocation.latitude, currentLocation.longitude, this._sounds);
+      sounds = _calculate.soundPosition(_angle, currentLocation.latitude,
+          currentLocation.longitude, this._sounds);
       notifyListeners();
-      print('sound_view_model: FlutterCompass');
+      log(currentLocation.latitude.toString());
     });
   }
 

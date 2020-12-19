@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:du_son/models/map_decorate_model.dart';
 import 'package:du_son/util/calculate.dart';
@@ -20,7 +22,7 @@ class MapDecorateManager with ChangeNotifier {
 
   MapDecorateManager(Size size) {
     calculate = Calculate(size);
-    azimuth = (now.hour*60 + now.minute)/4 ;
+    azimuth = (now.hour * 60 + now.minute) / 4;
     getMinute(now.minute, now.hour);
 
     FlutterCompass.events.listen((value) async {
@@ -42,7 +44,7 @@ class MapDecorateManager with ChangeNotifier {
 
   void _setColor(Timer timer) {
     getMinute(now.minute, now.hour);
-    print('map_decorate_view_model: getMinute');
+    log('map_decorate_view_model: getMinute');
     notifyListeners();
   }
 
@@ -119,4 +121,3 @@ class MapDecorateManager with ChangeNotifier {
     color[1] = hsv_af.toColor();
   }
 }
-

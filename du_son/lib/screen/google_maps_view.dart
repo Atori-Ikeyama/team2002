@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,7 +26,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
     initPlatformState();
     _locationService.onLocationChanged.listen((LocationData result) async {
       setState(() {
-
+        log(currentLocation.longitude.toString());
         currentLocation = result;
         cameraPosition();
       });
@@ -33,7 +34,6 @@ class _GoogleMapsState extends State<GoogleMaps> {
 
     FlutterCompass.events.listen((value) async {
       setState(() {
-        print(currentLocation.longitude);
         angle = value.heading;
         cameraPosition();
       });
@@ -59,9 +59,10 @@ class _GoogleMapsState extends State<GoogleMaps> {
         home: Scaffold(
           body: GoogleMap(
             onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition( // 最初のカメラ位置
-              target: LatLng(
-                  currentLocation.latitude, currentLocation.longitude),
+            initialCameraPosition: CameraPosition(
+              // 最初のカメラ位置
+              target:
+                  LatLng(currentLocation.latitude, currentLocation.longitude),
               zoom: 19.0,
               bearing: angle,
             ),
@@ -72,7 +73,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
             zoomGesturesEnabled: false,
             liteModeEnabled: false,
             tiltGesturesEnabled: false,
-            myLocationButtonEnabled:false,
+            myLocationButtonEnabled: false,
           ),
         ),
       );
@@ -89,7 +90,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
         error = 'Permission denited';
       else if (e.code == 'PERMISSION_DENITED_NEVER_ASK')
         error =
-        'Permission denited - please ask the user to enable it from the app settings';
+            'Permission denited - please ask the user to enable it from the app settings';
       myLocation = null;
     }
     setState(() {
@@ -99,8 +100,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
 
   void cameraPosition() {
     mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-      target: LatLng(
-          currentLocation.latitude, currentLocation.longitude),
+      target: LatLng(currentLocation.latitude, currentLocation.longitude),
       bearing: angle,
       zoom: 19.0,
     )));

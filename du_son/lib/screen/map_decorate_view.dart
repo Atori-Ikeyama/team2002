@@ -12,7 +12,7 @@ class MapDecorate extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: FractionalOffset(
-              0,//manager.model.beginEnd[0],
+              0, //manager.model.beginEnd[0],
               0, // manager.model.beginEnd[1],
             ),
             end: FractionalOffset(
@@ -20,8 +20,10 @@ class MapDecorate extends StatelessWidget {
               1, //manager.model.beginEnd[3],
             ),
             colors: [
-              Colors.blueAccent.withOpacity(0.5), //manager.color[0].withOpacity(0.1),
-              Colors.red.withOpacity(0.5),  //manager.color[1].withOpacity(0.1),
+              Colors.blueAccent.withOpacity(0.5),
+              //manager.color[0].withOpacity(0.1),
+              Colors.red.withOpacity(0.5),
+              //manager.color[1].withOpacity(0.1),
             ],
             stops: const [
               0.0,

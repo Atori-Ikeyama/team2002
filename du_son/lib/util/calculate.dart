@@ -15,7 +15,7 @@ class Calculate implements ICalculate {
   Calculate(this.size);
 
   List<double> solarAzimuth(double angle, double width, double height) {
-    double tangent = math.tan(angle*(math.pi/180));
+    double tangent = math.tan(angle * (math.pi / 180));
     List<double> _answer = [0, 0, 0, 0];
 
     //[x,y]
@@ -42,26 +42,25 @@ class Calculate implements ICalculate {
     jacobi(A, bottom, ans_bottom);
 
     //絶対値を入れる
-    double abs_right = math.sqrt(math.pow(ans_right[0], 2)
-        + math.pow(ans_right[1], 2));
-    double abs_left = math.sqrt(math.pow(ans_left[0], 2)
-        + math.pow(ans_left[1], 2));
-    double abs_top = math.sqrt(math.pow(ans_top[0], 2)
-        + math.pow(ans_top[1], 2));
-    double abs_bottom = math.sqrt(math.pow(ans_bottom[0], 2)
-        + math.pow(ans_bottom[1], 2));
+    double abs_right =
+        math.sqrt(math.pow(ans_right[0], 2) + math.pow(ans_right[1], 2));
+    double abs_left =
+        math.sqrt(math.pow(ans_left[0], 2) + math.pow(ans_left[1], 2));
+    double abs_top =
+        math.sqrt(math.pow(ans_top[0], 2) + math.pow(ans_top[1], 2));
+    double abs_bottom =
+        math.sqrt(math.pow(ans_bottom[0], 2) + math.pow(ans_bottom[1], 2));
 
-    if(angle == 90){
+    if (angle == 90) {
       _answer = [0, 0.5, 0, -0.5];
       return _answer;
     }
-    if(angle == 270){
+    if (angle == 270) {
       _answer = [0, -0.5, 0, 0.5];
       return _answer;
     }
 
-
-    if (math.tan(angle) >= 0){
+    if (math.tan(angle) >= 0) {
       if (abs_right > abs_top) {
         _answer[0] = ans_top[0] / width;
         _answer[1] = ans_top[1] / height;
@@ -77,7 +76,7 @@ class Calculate implements ICalculate {
         _answer[2] = ans_left[0] / width;
         _answer[3] = ans_left[1] / height;
       }
-    }else {
+    } else {
       if (abs_left > abs_top) {
         _answer[0] = ans_top[0] / width;
         _answer[1] = ans_top[1] / height;
@@ -119,25 +118,30 @@ class Calculate implements ICalculate {
   }
 
   List<SoundModel> soundPosition(
-      double angle,
-      double current_posi_lat,
-      double current_posi_lng,
-      List<Map<String, dynamic>> sounds,) {
-    SoundModel _sound = SoundModel(41.837005393152594, 140.76468075479335, 'coffee.mp3');
+    double angle,
+    double current_posi_lat,
+    double current_posi_lng,
+    List<Map<String, dynamic>> sounds,
+  ) {
+    SoundModel _sound =
+        SoundModel(41.837005393152594, 140.76468075479335, 'coffee.mp3');
     List<SoundModel> screenIn;
     screenIn.add(_sound);
 
-    for(Map<String, dynamic> sound in sounds){
-      List<double> _dd = distance_direction(current_posi_lat, current_posi_lng, sound['latitude'], sound['longitude']);
+    for (Map<String, dynamic> sound in sounds) {
+      List<double> _dd = distance_direction(current_posi_lat, current_posi_lng,
+          sound['latitude'], sound['longitude']);
       print(current_posi_lat);
       print(current_posi_lng);
-      if(_dd[0] < (this.size.height/2)*0.21904762 + 150){
+      if (_dd[0] < (this.size.height / 2) * 0.21904762 + 150) {
         log('Sound is here !!!!!!!!!!!!!!!!!!!!!!');
-        _sound.positionX = _dd[0]*math.cos(_dd[1])*4.56521739 + size.width/2;
-        _sound.positionY = -1* _dd[0]*math.sin(_dd[1])*4.56521739 + size.height/2;
+        _sound.positionX =
+            _dd[0] * math.cos(_dd[1]) * 4.56521739 + size.width / 2;
+        _sound.positionY =
+            -1 * _dd[0] * math.sin(_dd[1]) * 4.56521739 + size.height / 2;
         _sound.fileName = sound['fileName'];
         screenIn.add(_sound);
-      }else{
+      } else {
         log('No Sound');
       }
     }
@@ -145,12 +149,15 @@ class Calculate implements ICalculate {
     return screenIn;
   }
 
-  List<double> distance_direction(double clat, double clng, double slat, double slng){
-    List<double> answer = [0,0];
+  List<double> distance_direction(
+      double clat, double clng, double slat, double slng) {
+    List<double> answer = [0, 0];
     double r = 6378.137; // 赤道半径[km]
 
     // 2点間の距離[km]
-    answer[0] = r * math.acos(math.sin(clng) * math.sin(slng) + math.cos(clat) * math.cos(slat) * math.cos(slng - clng));
+    answer[0] = r *
+        math.acos(math.sin(clng) * math.sin(slng) +
+            math.cos(clat) * math.cos(slat) * math.cos(slng - clng));
 
     // ２点間の角度
     answer[1] = math.atan2(slat - clat, slng - clng);
